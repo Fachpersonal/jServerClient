@@ -9,18 +9,29 @@ import java.net.Socket;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+/**
+ * Echo Server
+ * @author <a href="https://github.com/Fachpersonal/">Fachpersonal</a>
+ * @version 1.0-SNAPSHOT
+ * @see <a href="https://github.com/Fachpersonal/jServerClient/blob/master/src/main/java/net/Fachpersonal/Server/jServer.java">jServer</a>
+ */
 public class EchoServer implements jServer {
 
     private ServerSocket ss;
 
+    /**
+     * Constructor of EchoServer
+     * @param port
+     */
     public EchoServer(int port) {
         init(port);
         close();
     }
 
     /**
-     * Starts Echo Server
-     * @return -1 = nothing
+     * initialization of EchoServer
+     * @param port
+     * @return
      */
     @Override
     public int init(int port) {
@@ -37,15 +48,28 @@ public class EchoServer implements jServer {
         }
     }
 
+    /**
+     * Closes EchoServer
+     * @return
+     */
     @Override
     public int close() {
         return -1; // Something failed
     }
 
+    /**
+     * @return TimeStamp in format of HH.mm.ss
+     */
     private String timestamp() {
         return "["+new SimpleDateFormat("HH.mm.ss").format(new Timestamp(System.currentTimeMillis()))+"]";
     }
 }
+
+/**
+ * Echo ClientHandler
+ * @author <a href="https://github.com/Fachpersonal/">Fachpersonal</a>
+ * @version 1.0-SNAPSHOT
+ */
 class EchoClient implements Runnable{
 
     private BufferedReader br;
@@ -53,6 +77,10 @@ class EchoClient implements Runnable{
 
     private String lastMSG;
 
+    /**
+     * Sets input and output streams
+     * @param s
+     */
     public EchoClient(Socket s){
         try {
             br = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -62,6 +90,9 @@ class EchoClient implements Runnable{
         }
     }
 
+    /**
+     * Echo loop
+     */
     @Override
     public void run() {
         try {
@@ -74,5 +105,8 @@ class EchoClient implements Runnable{
         }
     }
 
+    /**
+     * @return lastMessage
+     */
     public String getLastMSG() {return lastMSG;}
 }
